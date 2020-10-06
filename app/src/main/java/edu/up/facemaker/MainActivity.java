@@ -4,15 +4,16 @@
 
 package edu.up.facemaker;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class MainActivity extends AppCompatActivity {
 
-    String [] hairStyles = {"Short", "Bald", "Long"}; // hair choices
+    // hair choices
+    String[] hairStyles = {"Short", "Long", "Bald"};
     private Spinner hairSpin; // spinner object for hair choice
 
     @Override
@@ -20,12 +21,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        hairSpin = findViewById(R.id.hairChoiceSpinner);
-        ArrayAdapter<String> hairAdapter = new ArrayAdapter<String>(
+        // spinner options
+        hairSpin = findViewById(R.id.hairChoiceSpinner); // gets our spinner ID
+        ArrayAdapter<String> hairAdapter = new ArrayAdapter<String>( // creates new ArrayAdapter
                 this,
                 android.R.layout.simple_spinner_dropdown_item,
-                this.hairStyles);
-        hairSpin.setAdapter(hairAdapter);
+                this.hairStyles); // populates our spinner with our hair choices
+        hairSpin.setAdapter(hairAdapter); // sets our spinner we selected with our hair choices
+
+
 
     }
 }

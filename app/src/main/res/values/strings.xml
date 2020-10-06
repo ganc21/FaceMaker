@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">FaceMaker</string>
+    <string name="hair_style1">Short</string> <!--Hair choice for spinner-->
+    <string name="hair_style2">Long</string> <!--Hair choice for spinner-->
+    <string name="hair_style3">Bald</string> <!--Hair choice for spinner-->
 
 
 
