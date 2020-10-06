@@ -1,5 +1,6 @@
 package edu.up.facemaker;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.RadioButton;
@@ -11,14 +12,21 @@ public class Controls implements View.OnClickListener, SeekBar.OnSeekBarChangeLi
         RadioGroup.OnCheckedChangeListener, Spinner.OnItemSelectedListener {
 
     private Face face = null; // reference to the Face object
+    private MainActivity context;   // reference to the MainActivty that holds all the views
+
+    private RadioButton checkedRadioButton; // the radio button that is checked
+    public int red; // red color int
+    public int green; // green color int
+    public int blue; // blue color int
 
     /**
      * Constructor of a
      *
      * @param face
      */
-    public Controls(Face face) {
+    public Controls(Face face, MainActivity context) {
         this.face = face;
+        this.context = context;
     }
 
     @Override // for the Buttons
@@ -28,10 +36,27 @@ public class Controls implements View.OnClickListener, SeekBar.OnSeekBarChangeLi
 
     }
 
-    @Override // for the seekbar
+    @Override // for the red seekbar
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        // figure out which radio button is currently selected
+        if (seekBar == context.findViewById(R.id.redSeekBar)) {
+            this.red = progress;
+        } else if (seekBar == context.findViewById(R.id.greenSeekBar)) {
+            this.green = progress;
+        } else if (seekBar == context.findViewById(R.id.blueSeekBar)) {
+            this.blue = progress;
+        }
 
+        // looks at the radio button to see which is selected
+        if (checkedRadioButton == context.findViewById(R.id.skinRadio)) {
+            face.setSkinColor(this.red, this.green, this.blue);
+        } else if (checkedRadioButton == context.findViewById(R.id.hairRadio)){
+            face.setHairColor(this.red, this.green, this.blue);
+        } else if (checkedRadioButton == context.findViewById(R.id.eyesRadio)) {
+            face.setEyeColor(this.red, this.green, this.blue);
+        }
 
+        face.invalidate();
     }
 
     @Override // Part of SeekBar interface. Don't care for this
@@ -57,13 +82,15 @@ public class Controls implements View.OnClickListener, SeekBar.OnSeekBarChangeLi
      */
     @Override // for the Radio Buttons
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
-        // get's radio button
-        RadioButton checkedRadioButton = (RadioButton) radioGroup.findViewById(i);
+        // get's radio button that is checked
+        this.checkedRadioButton = (RadioButton) radioGroup.findViewById(i);
+
 
     }
 
     @Override // for the Spinner
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
 
     }
 

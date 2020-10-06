@@ -12,20 +12,24 @@ import android.graphics.Paint;
 import java.util.Random;
 
 public class Face extends SurfaceView {
-    private int skinColor;
-    private int eyeColor;
-    private int hairColor;
-    private int hairStyle; // identifies which hair style the face has
+    public int skinColor;
+    public int eyeColor;
+    public int hairColor;
+    public int hairStyle; // identifies which hair style the face has
 
     Paint skinPaint = new Paint(); // creates new paint object for skin
     Paint eyePaint = new Paint();   // creates new paint object for eye
     Paint hairPaint = new Paint(); // creates new paint object for hair
 
+
+    float screenHeight = getResources().getDisplayMetrics().heightPixels; // height of screen
+    float screenWidth = getResources().getDisplayMetrics().widthPixels; // width of screen
+
     /**
      * Constructor. When Face object is created, new values assigned to global variables
      */
-    public Face(Context context, AttributeSet attributeSet) {
-        super(context, attributeSet);
+    public Face(Context context) {
+        super(context);
         setWillNotDraw(false); // essential to onDraw, otherwise it won't be called
         randomize();
 
@@ -60,11 +64,8 @@ public class Face extends SurfaceView {
      *       Solution: I used the example code from this post.
      * @return
      */
-    public void setSkinColor() {
+    public void setSkinColor(int red, int green, int blue) {
         long alpha = 255; // transparency
-        long red = 0; // from red seekbar
-        long green = 0; // from green seekbar
-        long blue = 0; // from blue seekbar
 
         // concatenate the longs above to a hex String
         String hexSkin = Long.toHexString(alpha) + Long.toHexString(red) + Long.toHexString(green)
@@ -78,11 +79,8 @@ public class Face extends SurfaceView {
     /**
      * Similar to setSkinColor(), but for eyes this time
      */
-    public void setEyeColor() {
+    public void setEyeColor(int red, int green, int blue) {
         long alpha = 255; // transparency
-        long red = 0; // from red seekbar
-        long green = 0; // from green seekbar
-        long blue = 0; // from blue seekbar
 
         // concatenate the longs above to a hex String
         String hexEye = Long.toHexString(alpha) + Long.toHexString(red) + Long.toHexString(green)
@@ -96,11 +94,8 @@ public class Face extends SurfaceView {
     /**
      * Similar to setSkinColor(), but for hair this time
      */
-    public void setHairColor() {
+    public void setHairColor(int red, int green, int blue) {
         long alpha = 255; // transparency
-        long red = 0; // from red seekbar
-        long green = 0; // from green seekbar
-        long blue = 0; // from blue seekbar
 
         // concatenate the longs above to a hex String
         String hexHair = Long.toHexString(alpha) + Long.toHexString(red) + Long.toHexString(green)
@@ -113,10 +108,37 @@ public class Face extends SurfaceView {
 
     public void onDraw(Canvas canvas) {
 
+    }
 
+    /**
+     * Draws the bases of a face: outline, nose, mouth, ears
+     * @param canvas
+     * @param x
+     * @param y
+     */
+    public void drawBaseFace(Canvas canvas, float x, float y) {
 
     }
 
+    /**
+     * Draws our eyes on the face with the eye color given by the user
+     * @param x
+     * @param y
+     */
+    public void drawEyes(Canvas canvas, float x, float y) {
+
+    }
+
+    /**
+     * Draws our hair on the face with the given hair color and hair style
+     * @param canvas
+     * @param x
+     * @param y
+     */
+    public void drawHair(Canvas canvas, float x, float y) {
+
+
+    }
 
 
 }
