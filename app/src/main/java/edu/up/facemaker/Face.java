@@ -19,10 +19,10 @@ import androidx.annotation.RequiresApi;
 import java.util.Random;
 
 public class Face extends SurfaceView {
-    private int skinColor;
-    private int eyeColor;
-    private int hairColor;
-    private int hairStyle; // identifies which hair style the face has
+    public int skinColor;
+    public int eyeColor;
+    public int hairColor;
+    public int hairStyle; // identifies which hair style the face has
 
     private Paint skinPaint = new Paint(); // creates new paint object for skin
     private Paint eyePaint = new Paint();   // creates new paint object for eye
@@ -97,6 +97,9 @@ public class Face extends SurfaceView {
         int skinVal = (int) Long.parseLong(hexSkin, 16); // type cast long to int
         this.skinColor = skinVal;
     }
+    public int getSkinColor() {
+        return skinColor;
+    }
 
     /**
      * Similar to setSkinColor(), but for eyes this time
@@ -112,6 +115,9 @@ public class Face extends SurfaceView {
         int eyeVal = (int) Long.parseLong(hexEye, 16); // type cast long to int
         this.eyeColor = eyeVal;
     }
+    public int getEyeColor() {
+        return eyeColor;
+    }
 
     /**
      * Similar to setSkinColor(), but for hair this time
@@ -126,6 +132,9 @@ public class Face extends SurfaceView {
         // parses a hexadecimal number into a long
         int hairVal = (int) Long.parseLong(hexHair, 16); // type cast long to int
         this.hairColor = hairVal;
+    }
+    public int getHairColor() {
+        return hairColor;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -148,10 +157,13 @@ public class Face extends SurfaceView {
         whitePaint.setStyle(Paint.Style.STROKE);
         whitePaint.setStrokeWidth(5f);
 
+        skinPaint.setColor(getSkinColor());
+        skinPaint.setStyle(Paint.Style.FILL);
+
         float cx = x/2f; // half width
         float cy = y/3f; // 3rd height
         float radius = x/4; // circle radius
-        canvas.drawCircle(cx, cy, radius, whitePaint);
+        canvas.drawCircle(cx, cy, radius, skinPaint);
 
         // mouth
         RectF ourOval = new RectF(cx-(cx/3), y/2-200, cx+200, y/2-150);

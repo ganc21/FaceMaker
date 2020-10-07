@@ -53,7 +53,7 @@ public class Controls implements View.OnClickListener, SeekBar.OnSeekBarChangeLi
 
         // looks at the radio button to see which is selected
         if (checkedRadioButton == context.findViewById(R.id.skinRadio)) {
-            face.setSkinColor(this.red, this.green, this.blue);
+            face.setSkinColor(red, green, blue);
         } else if (checkedRadioButton == context.findViewById(R.id.hairRadio)){
             face.setHairColor(this.red, this.green, this.blue);
         } else if (checkedRadioButton == context.findViewById(R.id.eyesRadio)) {
