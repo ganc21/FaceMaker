@@ -144,7 +144,8 @@
                 android:id="@+id/redSeekBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:max="255" />
+                android:max="255"
+                android:progressTint="#ff0000"/>
 
             <TextView
                 android:id="@+id/greenLabel"
@@ -156,7 +157,8 @@
                 android:id="@+id/greenSeekBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:max="255" />
+                android:max="255"
+                android:progressTint="#00ff00"/>
 
             <TextView
                 android:id="@+id/blueLabel"
@@ -168,7 +170,8 @@
                 android:id="@+id/blueSeekBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:max="255" />
+                android:max="255"
+                android:progressTint="#0000ff"/>
         </LinearLayout>
 
     </LinearLayout>

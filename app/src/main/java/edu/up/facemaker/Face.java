@@ -19,14 +19,17 @@ import androidx.annotation.RequiresApi;
 import java.util.Random;
 
 public class Face extends SurfaceView {
-    public int skinColor;
-    public int eyeColor;
-    public int hairColor;
-    public int hairStyle; // identifies which hair style the face has
+    private int skinColor;
+    private int eyeColor;
+    private int hairColor;
+    private int hairStyle; // identifies which hair style the face has
 
     private Paint skinPaint = new Paint(); // creates new paint object for skin
     private Paint eyePaint = new Paint();   // creates new paint object for eye
     private Paint hairPaint = new Paint(); // creates new paint object for hair
+    private Paint whitePaint = new Paint();
+    private Paint redPaint = new Paint();
+
 
 
     /**
@@ -46,17 +49,17 @@ public class Face extends SurfaceView {
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public Face(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        super(context);
         setWillNotDraw(false); // essential to onDraw, otherwise it won't be called
         randomize();
 
         //setup palette
         skinPaint.setColor(skinColor);
-        skinPaint.setStyle(Paint.Style.FILL);
         eyePaint.setColor(eyeColor);
-        eyePaint.setStyle(Paint.Style.FILL);
         hairPaint.setColor(hairColor);
-        hairPaint.setStyle(Paint.Style.FILL);
+
+        whitePaint.setColor(Color.WHITE);
+        redPaint.setColor(Color.RED);
 
     }
 
@@ -137,10 +140,17 @@ public class Face extends SurfaceView {
         return hairColor;
     }
 
+    public void setHairStyle(int i) {
+        this.hairStyle = i;
+
+    }
+    public int getHairStyle() {return hairStyle; }
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        drawBaseFace(canvas, screenWidth, screenHeight);
+        drawBaseFace(canvas, screenWidth, screenHeight); // basics of a face and outline
+        drawEyes(canvas, screenWidth, screenHeight); // eye iris
     }
 
     /**
@@ -152,25 +162,31 @@ public class Face extends SurfaceView {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void drawBaseFace(Canvas canvas, float x, float y) {
         // outline of the face
-        Paint whitePaint = new Paint();
-        whitePaint.setColor(Color.WHITE);
-        whitePaint.setStyle(Paint.Style.STROKE);
-        whitePaint.setStrokeWidth(5f);
 
         skinPaint.setColor(getSkinColor());
         skinPaint.setStyle(Paint.Style.FILL);
 
+        whitePaint.setStyle(Paint.Style.STROKE);
+        whitePaint.setStrokeWidth(5f);
+
         float cx = x/2f; // half width
         float cy = y/3f; // 3rd height
         float radius = x/4; // circle radius
-        canvas.drawCircle(cx, cy, radius, skinPaint);
+        canvas.drawCircle(cx, cy, radius, whitePaint);
 
         // mouth
         RectF ourOval = new RectF(cx-(cx/3), y/2-200, cx+200, y/2-150);
         canvas.drawOval(ourOval, whitePaint);
 
         // nose
+        redPaint.setStyle(Paint.Style.FILL);
         canvas.drawCircle(cx,cy, radius/10, whitePaint);
+        canvas.drawCircle(cx,cy, radius/10-1, redPaint);
+
+        // eye whites
+        whitePaint.setStyle(Paint.Style.FILL);
+        canvas.drawCircle(cx-(cx/4),y/3.5f,radius/5, whitePaint); // left eye
+        canvas.drawCircle(cx+(cx/4), y/3.5f, radius/5, whitePaint); // right eye
 
     }
 
@@ -180,10 +196,13 @@ public class Face extends SurfaceView {
      * @param y screenHeight
      */
     public void drawEyes(Canvas canvas, float x, float y) {
-        eyePaint.setColor(eyeColor);
-        //canvas.drawOval();
-
-
+        float cx = x/2f; // half width
+        float cy = y/3f; // 3rd height
+        float radius = x/4; // circle radius
+        eyePaint.setColor(getEyeColor());
+        eyePaint.setStyle(Paint.Style.FILL);
+        canvas.drawCircle(cx-(cx/4),y/3.5f,radius/7, eyePaint); // left iris
+        canvas.drawCircle(cx+(cx/4), y/3.5f, radius/5, eyePaint); // right iris
     }
 
     /**

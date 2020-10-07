@@ -2,6 +2,7 @@ package edu.up.facemaker;
 
 import android.content.Context;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.RadioButton;
@@ -11,11 +12,13 @@ import android.widget.Spinner;
 
 import androidx.annotation.RequiresApi;
 
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class Controls implements View.OnClickListener, SeekBar.OnSeekBarChangeListener,
         RadioGroup.OnCheckedChangeListener, Spinner.OnItemSelectedListener {
 
-    private Face face = null; // reference to the Face object
+
     private MainActivity context;   // reference to the MainActivty that holds all the views
+    private Face face = null; // reference to the Face object
 
     private RadioButton checkedRadioButton; // the radio button that is checked
     private int red; // red color int
@@ -40,7 +43,7 @@ public class Controls implements View.OnClickListener, SeekBar.OnSeekBarChangeLi
 
     }
 
-    @Override // for the red seekbar
+    @Override // for seekbar
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         // figure out which radio button is currently selected
         if (seekBar == context.findViewById(R.id.redSeekBar)) {
@@ -52,6 +55,7 @@ public class Controls implements View.OnClickListener, SeekBar.OnSeekBarChangeLi
         }
 
         // looks at the radio button to see which is selected
+        //context.findViewById(R.id.skinRadio
         if (checkedRadioButton == context.findViewById(R.id.skinRadio)) {
             face.setSkinColor(red, green, blue);
         } else if (checkedRadioButton == context.findViewById(R.id.hairRadio)){
@@ -89,17 +93,16 @@ public class Controls implements View.OnClickListener, SeekBar.OnSeekBarChangeLi
         // get's radio button that is checked
         this.checkedRadioButton = (RadioButton) radioGroup.findViewById(i);
         face.invalidate();
-
-
     }
 
     @Override // for the Spinner
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-
+        face.setHairStyle(i);
+        face.invalidate();
     }
-
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
+        adapterView.setSelection(face.getHairStyle()); // start hairstyle with starting option
+
     }
 }

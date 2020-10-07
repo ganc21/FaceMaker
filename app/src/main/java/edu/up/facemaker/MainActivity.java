@@ -34,9 +34,10 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        setContentView(R.layout.activity_main); // this needs to be set first before any surface view
+        setContentView(R.layout.activity_main); //this needs to be set first before any surface view
 
         face = new Face(this, null); // reference to Face object
+        //face = findViewById(R.id.surfaceView);
         controls = new Controls(face, this); // reference to Controls
 
 
