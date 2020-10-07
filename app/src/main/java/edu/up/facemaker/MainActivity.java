@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     // hair choices
     private String[] hairStyles = {"Short", "Long", "Bald"};
 
-    private Spinner hairSpin; // spinner object for hair choice
 
     Face face;
     Controls controls;
@@ -41,15 +40,19 @@ public class MainActivity extends AppCompatActivity {
         controls = new Controls(face, this); // reference to Controls
 
 
-        // spinner options
-        hairSpin = findViewById(R.id.hairChoiceSpinner); // gets our spinner ID
+        // spinner object and populate the spinner
+        Spinner hairSpin = findViewById(R.id.hairChoiceSpinner); // gets our spinner ID
         ArrayAdapter<String> hairAdapter = new ArrayAdapter<String>( // creates new ArrayAdapter
                 this,
                 android.R.layout.simple_spinner_dropdown_item,
                 this.hairStyles); // populates our spinner with our hair choices
         hairSpin.setAdapter(hairAdapter); // sets our spinner we selected with our hair choices
 
-        //seekbar
+        hairSpin.setOnItemSelectedListener(controls);
+
+
+
+        //seekbar objects and calls to the Control class
         SeekBar seekBarRed = findViewById(R.id.redSeekBar);
         SeekBar seekBarGreen = findViewById(R.id.greenSeekBar);
         SeekBar seekBarBlue = findViewById(R.id.blueSeekBar);

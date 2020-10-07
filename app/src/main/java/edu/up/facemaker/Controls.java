@@ -16,19 +16,19 @@ import androidx.annotation.RequiresApi;
 public class Controls implements View.OnClickListener, SeekBar.OnSeekBarChangeListener,
         RadioGroup.OnCheckedChangeListener, Spinner.OnItemSelectedListener {
 
-
-    private MainActivity context;   // reference to the MainActivty that holds all the views
+    private MainActivity context;   // reference to the MainActivity that holds all the views
     private Face face = null; // reference to the Face object
 
     private RadioButton checkedRadioButton; // the radio button that is checked
-    private int red; // red color int
-    private int green; // green color int
-    private int blue; // blue color int
+    private int red; // red color from red seekBar
+    private int green; // green color from green seekBar
+    private int blue; // blue color from blue Seekbar
 
     /**
-     * Constructor of a
+     * Constructor of Controls
      *
-     * @param face
+     * @param face - Face class
+     * @param context - MainActivity references
      */
     public Controls(Face face, MainActivity context) {
         this.face = face;
@@ -103,6 +103,7 @@ public class Controls implements View.OnClickListener, SeekBar.OnSeekBarChangeLi
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
         adapterView.setSelection(face.getHairStyle()); // start hairstyle with starting option
+        face.invalidate();
 
     }
 }

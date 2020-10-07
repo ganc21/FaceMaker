@@ -30,8 +30,6 @@ public class Face extends SurfaceView {
     private Paint whitePaint = new Paint();
     private Paint redPaint = new Paint();
 
-
-
     /**
      External Citation:
      Date:   6 October 2020
@@ -43,6 +41,8 @@ public class Face extends SurfaceView {
      */
     float screenHeight = getResources().getDisplayMetrics().heightPixels; // height of screen
     float screenWidth = getResources().getDisplayMetrics().widthPixels; // width of screen
+    float cx = screenWidth/2f; // half width
+    float cy = screenHeight/3f; // 3rd height
 
     /**
      * Constructor. When Face object is created, new values assigned to global variables
@@ -89,7 +89,7 @@ public class Face extends SurfaceView {
      *       Solution: I used the example code from this post.
      * @return
      */
-    public void setSkinColor(int red, int green, int blue) {
+    public void setSkinColor(long red, long green, long blue) {
         long alpha = 255; // transparency
 
         // concatenate the longs above to a hex String
@@ -100,14 +100,15 @@ public class Face extends SurfaceView {
         int skinVal = (int) Long.parseLong(hexSkin, 16); // type cast long to int
         this.skinColor = skinVal;
     }
+
     public int getSkinColor() {
         return skinColor;
-    }
+    } // getter for skinColor
 
     /**
      * Similar to setSkinColor(), but for eyes this time
      */
-    public void setEyeColor(int red, int green, int blue) {
+    public void setEyeColor(long red, long green, long blue) {
         long alpha = 255; // transparency
 
         // concatenate the longs above to a hex String
@@ -125,7 +126,7 @@ public class Face extends SurfaceView {
     /**
      * Similar to setSkinColor(), but for hair this time
      */
-    public void setHairColor(int red, int green, int blue) {
+    public void setHairColor(long red, long green, long blue) {
         long alpha = 255; // transparency
 
         // concatenate the longs above to a hex String
@@ -140,18 +141,14 @@ public class Face extends SurfaceView {
         return hairColor;
     }
 
+    // set the hair style
     public void setHairStyle(int i) {
         this.hairStyle = i;
 
     }
+    // get the hair style
     public int getHairStyle() {return hairStyle; }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        drawBaseFace(canvas, screenWidth, screenHeight); // basics of a face and outline
-        drawEyes(canvas, screenWidth, screenHeight); // eye iris
-    }
 
     /**
      * Draws the bases of a face: outline, nose, mouth, ears
@@ -161,7 +158,7 @@ public class Face extends SurfaceView {
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void drawBaseFace(Canvas canvas, float x, float y) {
-        // outline of the face
+        float radius = x/4; // circle radius
 
         skinPaint.setColor(getSkinColor());
         skinPaint.setStyle(Paint.Style.FILL);
@@ -169,9 +166,7 @@ public class Face extends SurfaceView {
         whitePaint.setStyle(Paint.Style.STROKE);
         whitePaint.setStrokeWidth(5f);
 
-        float cx = x/2f; // half width
-        float cy = y/3f; // 3rd height
-        float radius = x/4; // circle radius
+        // outline of the face
         canvas.drawCircle(cx, cy, radius, whitePaint);
 
         // mouth
@@ -196,8 +191,7 @@ public class Face extends SurfaceView {
      * @param y screenHeight
      */
     public void drawEyes(Canvas canvas, float x, float y) {
-        float cx = x/2f; // half width
-        float cy = y/3f; // 3rd height
+
         float radius = x/4; // circle radius
         eyePaint.setColor(getEyeColor());
         eyePaint.setStyle(Paint.Style.FILL);
@@ -212,8 +206,17 @@ public class Face extends SurfaceView {
      * @param y
      */
     public void drawHair(Canvas canvas, float x, float y) {
+        //canvas.drawCircle(cx, cy, radius, whitePaint);
 
 
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        drawBaseFace(canvas, screenWidth, screenHeight); // basics of a face and outline
+        drawEyes(canvas, screenWidth, screenHeight); // eye iris
     }
 
 
