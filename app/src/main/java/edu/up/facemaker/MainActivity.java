@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         face = new Face(this, null); // reference to Face object
         controls = new Controls(face, this); // reference to Controls
 
+
         // spinner options
         hairSpin = findViewById(R.id.hairChoiceSpinner); // gets our spinner ID
         ArrayAdapter<String> hairAdapter = new ArrayAdapter<String>( // creates new ArrayAdapter

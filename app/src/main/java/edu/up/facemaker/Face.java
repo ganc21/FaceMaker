@@ -5,6 +5,8 @@
 package edu.up.facemaker;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
@@ -50,8 +52,12 @@ public class Face extends SurfaceView {
 
         //setup palette
         skinPaint.setColor(skinColor);
+        skinPaint.setStyle(Paint.Style.FILL);
         eyePaint.setColor(eyeColor);
+        eyePaint.setStyle(Paint.Style.FILL);
         hairPaint.setColor(hairColor);
+        hairPaint.setStyle(Paint.Style.FILL);
+
     }
 
     /**
@@ -125,32 +131,46 @@ public class Face extends SurfaceView {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        drawBaseFace(canvas, 100, 100 );
+        drawBaseFace(canvas, screenWidth, screenHeight);
     }
 
     /**
      * Draws the bases of a face: outline, nose, mouth, ears
      * @param canvas
-     * @param x
-     * @param y
+     * @param x // screen width, screenWidth
+     * @param y // screen, screenHeight
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void drawBaseFace(Canvas canvas, float x, float y) {
-        Paint whitePaint = new Paint(Color.WHITE);
-        float cx; // width
-        float cy; // height
-        cx = x/2;
-        cy = y/3;
-        float radius = cx/4;
+        // outline of the face
+        Paint whitePaint = new Paint();
+        whitePaint.setColor(Color.WHITE);
+        whitePaint.setStyle(Paint.Style.STROKE);
+        whitePaint.setStrokeWidth(5f);
+
+        float cx = x/2f; // half width
+        float cy = y/3f; // 3rd height
+        float radius = x/4; // circle radius
         canvas.drawCircle(cx, cy, radius, whitePaint);
+
+        // mouth
+        RectF ourOval = new RectF(cx-(cx/3), y/2-200, cx+200, y/2-150);
+        canvas.drawOval(ourOval, whitePaint);
+
+        // nose
+        canvas.drawCircle(cx,cy, radius/10, whitePaint);
+
     }
 
     /**
      * Draws our eyes on the face with the eye color given by the user
-     * @param x
-     * @param y
+     * @param x screenWidth
+     * @param y screenHeight
      */
     public void drawEyes(Canvas canvas, float x, float y) {
+        eyePaint.setColor(eyeColor);
+        //canvas.drawOval();
+
 
     }
 
