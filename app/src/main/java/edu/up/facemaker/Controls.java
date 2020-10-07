@@ -1,12 +1,15 @@
 package edu.up.facemaker;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+
+import androidx.annotation.RequiresApi;
 
 public class Controls implements View.OnClickListener, SeekBar.OnSeekBarChangeListener,
         RadioGroup.OnCheckedChangeListener, Spinner.OnItemSelectedListener {
@@ -15,9 +18,9 @@ public class Controls implements View.OnClickListener, SeekBar.OnSeekBarChangeLi
     private MainActivity context;   // reference to the MainActivty that holds all the views
 
     private RadioButton checkedRadioButton; // the radio button that is checked
-    public int red; // red color int
-    public int green; // green color int
-    public int blue; // blue color int
+    private int red; // red color int
+    private int green; // green color int
+    private int blue; // blue color int
 
     /**
      * Constructor of a
@@ -29,6 +32,7 @@ public class Controls implements View.OnClickListener, SeekBar.OnSeekBarChangeLi
         this.context = context;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override // for the Buttons
     public void onClick(View view) {
         face.randomize();
@@ -84,6 +88,7 @@ public class Controls implements View.OnClickListener, SeekBar.OnSeekBarChangeLi
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         // get's radio button that is checked
         this.checkedRadioButton = (RadioButton) radioGroup.findViewById(i);
+        face.invalidate();
 
 
     }

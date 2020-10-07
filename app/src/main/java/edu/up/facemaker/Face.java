@@ -5,31 +5,46 @@
 package edu.up.facemaker;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.view.View;
+
+import androidx.annotation.RequiresApi;
+
 import java.util.Random;
 
 public class Face extends SurfaceView {
-    public int skinColor;
-    public int eyeColor;
-    public int hairColor;
-    public int hairStyle; // identifies which hair style the face has
+    private int skinColor;
+    private int eyeColor;
+    private int hairColor;
+    private int hairStyle; // identifies which hair style the face has
 
-    Paint skinPaint = new Paint(); // creates new paint object for skin
-    Paint eyePaint = new Paint();   // creates new paint object for eye
-    Paint hairPaint = new Paint(); // creates new paint object for hair
+    private Paint skinPaint = new Paint(); // creates new paint object for skin
+    private Paint eyePaint = new Paint();   // creates new paint object for eye
+    private Paint hairPaint = new Paint(); // creates new paint object for hair
 
 
+    /**
+     External Citation:
+     Date:   6 October 2020
+     Problem:    How do I make all the shapes relative to the screen size?
+
+     Resource:
+     https://developer.android.com/reference/android/util/DisplayMetrics
+     Solution: Followed documentation
+     */
     float screenHeight = getResources().getDisplayMetrics().heightPixels; // height of screen
     float screenWidth = getResources().getDisplayMetrics().widthPixels; // width of screen
 
     /**
      * Constructor. When Face object is created, new values assigned to global variables
      */
-    public Face(Context context) {
-        super(context);
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public Face(Context context, AttributeSet attrs) {
+        super(context, attrs);
         setWillNotDraw(false); // essential to onDraw, otherwise it won't be called
         randomize();
 
@@ -42,13 +57,14 @@ public class Face extends SurfaceView {
     /**
      * assigns a random number, between 0-255, to each global variable
      */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void randomize() {
         Random rand = new Random();
         int upperBound = 255; // 0-255 of the color scale
         skinColor = rand.nextInt(upperBound);
         eyeColor = rand.nextInt(upperBound);
         hairColor = rand.nextInt(upperBound);
-        hairStyle = rand.nextInt(upperBound);
+        hairStyle = rand.nextInt(3-1) + 1;
     }
 
     /**
@@ -106,8 +122,10 @@ public class Face extends SurfaceView {
         this.hairColor = hairVal;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void onDraw(Canvas canvas) {
-
+        super.onDraw(canvas);
+        drawBaseFace(canvas, 100, 100 );
     }
 
     /**
@@ -116,8 +134,15 @@ public class Face extends SurfaceView {
      * @param x
      * @param y
      */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void drawBaseFace(Canvas canvas, float x, float y) {
-
+        Paint whitePaint = new Paint(Color.WHITE);
+        float cx; // width
+        float cy; // height
+        cx = x/2;
+        cy = y/3;
+        float radius = cx/4;
+        canvas.drawCircle(cx, cy, radius, whitePaint);
     }
 
     /**
