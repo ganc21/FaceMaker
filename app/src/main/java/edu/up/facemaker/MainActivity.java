@@ -9,6 +9,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.view.SurfaceView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -21,11 +22,11 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     // hair choices
-    private String[] hairStyles = {"Short", "Long", "Bald"};
+    private String[] hairStyles = {"One Bun", "Two Buns", "Bald"};
 
 
-    Face face;
-    Controls controls;
+    private Face face;
+    private Controls controls;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -35,9 +36,10 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main); //this needs to be set first before any surface view
 
-        face = new Face(this, null); // reference to Face object
-        //face = findViewById(R.id.surfaceView);
-        controls = new Controls(face, this); // reference to Controls
+        //face = new Face(this, null); // reference to Face object
+
+        face = findViewById(R.id.my_view);
+        controls = new Controls(face, this); // reference to Controls,
 
 
         // spinner object and populate the spinner

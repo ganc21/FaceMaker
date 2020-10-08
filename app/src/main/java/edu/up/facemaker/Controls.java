@@ -20,9 +20,9 @@ public class Controls implements View.OnClickListener, SeekBar.OnSeekBarChangeLi
     private Face face = null; // reference to the Face object
 
     private RadioButton checkedRadioButton; // the radio button that is checked
-    private int red; // red color from red seekBar
-    private int green; // green color from green seekBar
-    private int blue; // blue color from blue Seekbar
+    private long red; // red color from red seekBar
+    private long green; // green color from green seekBar
+    private long blue; // blue color from blue Seekbar
 
     /**
      * Constructor of Controls
@@ -36,14 +36,13 @@ public class Controls implements View.OnClickListener, SeekBar.OnSeekBarChangeLi
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    @Override // for the Buttons
+    @Override // Listener for button
     public void onClick(View view) {
         face.randomize();
         face.invalidate();
-
     }
 
-    @Override // for seekbar
+    @Override // Seekbar listener
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         // figure out which radio button is currently selected
         if (seekBar == context.findViewById(R.id.redSeekBar)) {
@@ -55,7 +54,6 @@ public class Controls implements View.OnClickListener, SeekBar.OnSeekBarChangeLi
         }
 
         // looks at the radio button to see which is selected
-        //context.findViewById(R.id.skinRadio
         if (checkedRadioButton == context.findViewById(R.id.skinRadio)) {
             face.setSkinColor(red, green, blue);
         } else if (checkedRadioButton == context.findViewById(R.id.hairRadio)){
@@ -63,14 +61,12 @@ public class Controls implements View.OnClickListener, SeekBar.OnSeekBarChangeLi
         } else if (checkedRadioButton == context.findViewById(R.id.eyesRadio)) {
             face.setEyeColor(this.red, this.green, this.blue);
         }
-
         face.invalidate();
     }
 
     @Override // Part of SeekBar interface. Don't care for this
     public void onStartTrackingTouch(SeekBar seekBar) {
     }
-
     @Override // Part of SeekBar interface. Don't care for this
     public void onStopTrackingTouch(SeekBar seekBar) {
     }

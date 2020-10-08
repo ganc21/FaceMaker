@@ -29,6 +29,7 @@ public class Face extends SurfaceView {
     private Paint hairPaint = new Paint(); // creates new paint object for hair
     private Paint whitePaint = new Paint();
     private Paint redPaint = new Paint();
+    private Paint blackPaint = new Paint();
 
     /**
      External Citation:
@@ -49,17 +50,19 @@ public class Face extends SurfaceView {
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public Face(Context context, AttributeSet attrs) {
-        super(context);
+        super(context, attrs);
         setWillNotDraw(false); // essential to onDraw, otherwise it won't be called
         randomize();
 
         //setup palette
         skinPaint.setColor(skinColor);
+        skinPaint.setStyle(Paint.Style.FILL);
         eyePaint.setColor(eyeColor);
         hairPaint.setColor(hairColor);
 
         whitePaint.setColor(Color.WHITE);
         redPaint.setColor(Color.RED);
+        blackPaint.setColor(Color.BLACK);
 
     }
 
@@ -69,11 +72,11 @@ public class Face extends SurfaceView {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void randomize() {
         Random rand = new Random();
-        int upperBound = 255; // 0-255 of the color scale
+        int upperBound = 256; // 0-255 of the color scale, 256 exclusive
         skinColor = rand.nextInt(upperBound);
         eyeColor = rand.nextInt(upperBound);
         hairColor = rand.nextInt(upperBound);
-        hairStyle = rand.nextInt(3-1) + 1;
+        hairStyle = rand.nextInt(4-1) + 1;
     }
 
     /**
@@ -159,7 +162,6 @@ public class Face extends SurfaceView {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void drawBaseFace(Canvas canvas, float x, float y) {
         float radius = x/4; // circle radius
-
         skinPaint.setColor(getSkinColor());
         skinPaint.setStyle(Paint.Style.FILL);
 
@@ -167,16 +169,17 @@ public class Face extends SurfaceView {
         whitePaint.setStrokeWidth(5f);
 
         // outline of the face
-        canvas.drawCircle(cx, cy, radius, whitePaint);
+        skinPaint.setStyle(Paint.Style.FILL);
+        canvas.drawCircle(cx, cy, radius, skinPaint);
 
         // mouth
+        redPaint.setStyle(Paint.Style.FILL);
         RectF ourOval = new RectF(cx-(cx/3), y/2-200, cx+200, y/2-150);
-        canvas.drawOval(ourOval, whitePaint);
+        canvas.drawOval(ourOval, redPaint);
 
         // nose
-        redPaint.setStyle(Paint.Style.FILL);
         canvas.drawCircle(cx,cy, radius/10, whitePaint);
-        canvas.drawCircle(cx,cy, radius/10-1, redPaint);
+        canvas.drawCircle(cx,cy, radius/10-1, skinPaint);
 
         // eye whites
         whitePaint.setStyle(Paint.Style.FILL);
@@ -191,12 +194,11 @@ public class Face extends SurfaceView {
      * @param y screenHeight
      */
     public void drawEyes(Canvas canvas, float x, float y) {
-
         float radius = x/4; // circle radius
         eyePaint.setColor(getEyeColor());
         eyePaint.setStyle(Paint.Style.FILL);
-        canvas.drawCircle(cx-(cx/4),y/3.5f,radius/7, eyePaint); // left iris
-        canvas.drawCircle(cx+(cx/4), y/3.5f, radius/5, eyePaint); // right iris
+        canvas.drawCircle(cx-(cx/4),y/3.5f,radius/7f, eyePaint); // left iris
+        canvas.drawCircle(cx+(cx/4), y/3.5f, radius/5f, eyePaint); // right iris
     }
 
     /**
@@ -206,15 +208,25 @@ public class Face extends SurfaceView {
      * @param y
      */
     public void drawHair(Canvas canvas, float x, float y) {
-        //canvas.drawCircle(cx, cy, radius, whitePaint);
+        hairPaint.setColor(getHairColor());
+        float radius = x/4; // circle radius
+        redPaint.setStyle(Paint.Style.FILL);
+        if (getHairStyle() == 1) {
+            canvas.drawCircle(cx, radius+10, radius/4, redPaint);//top bun
+        } else if (getHairStyle() == 2) {
+            // left bun
+            canvas.drawCircle(cx-(cx/4),radius+cx/6, radius/4, hairPaint );
+            //right bun
+            canvas.drawCircle(cx+(cx/4),radius+cx/6, radius/4, hairPaint );
+        } else if (getHairStyle() == 3) {
 
-
-
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        drawHair(canvas, screenWidth, screenHeight);
         drawBaseFace(canvas, screenWidth, screenHeight); // basics of a face and outline
         drawEyes(canvas, screenWidth, screenHeight); // eye iris
     }
