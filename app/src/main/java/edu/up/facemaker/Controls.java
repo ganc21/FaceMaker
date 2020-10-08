@@ -38,6 +38,7 @@ public class Controls implements View.OnClickListener, SeekBar.OnSeekBarChangeLi
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override // Listener for button
     public void onClick(View view) {
+
         face.randomize();
         face.invalidate();
     }

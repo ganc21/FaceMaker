@@ -30,6 +30,7 @@ public class Face extends SurfaceView {
     private Paint whitePaint = new Paint();
     private Paint redPaint = new Paint();
     private Paint blackPaint = new Paint();
+    private Paint pinkPaint = new Paint();
 
     /**
      External Citation:
@@ -55,14 +56,15 @@ public class Face extends SurfaceView {
         randomize();
 
         //setup palette
-        skinPaint.setColor(skinColor);
+        skinPaint.setColor(getSkinColor());
         skinPaint.setStyle(Paint.Style.FILL);
-        eyePaint.setColor(eyeColor);
-        hairPaint.setColor(hairColor);
+        eyePaint.setColor(getEyeColor());
+        hairPaint.setColor(getHairColor());
 
         whitePaint.setColor(Color.WHITE);
         redPaint.setColor(Color.RED);
         blackPaint.setColor(Color.BLACK);
+        pinkPaint.setColor(0xfffc8eac);
 
     }
 
@@ -73,10 +75,11 @@ public class Face extends SurfaceView {
     public void randomize() {
         Random rand = new Random();
         int upperBound = 256; // 0-255 of the color scale, 256 exclusive
-        skinColor = rand.nextInt(upperBound);
-        eyeColor = rand.nextInt(upperBound);
-        hairColor = rand.nextInt(upperBound);
-        hairStyle = rand.nextInt(4-1) + 1;
+        setSkinColor(rand.nextInt(upperBound),rand.nextInt(upperBound),rand.nextInt(upperBound));
+        setEyeColor(rand.nextInt(upperBound),rand.nextInt(upperBound),rand.nextInt(upperBound));
+        setEyeColor(rand.nextInt(upperBound),rand.nextInt(upperBound),rand.nextInt(upperBound));
+        hairStyle = rand.nextInt(3) ;
+        setHairStyle(hairStyle);
     }
 
     /**
@@ -175,7 +178,7 @@ public class Face extends SurfaceView {
         // mouth
         redPaint.setStyle(Paint.Style.FILL);
         RectF ourOval = new RectF(cx-(cx/3), y/2-200, cx+200, y/2-150);
-        canvas.drawOval(ourOval, redPaint);
+        canvas.drawOval(ourOval, pinkPaint);
 
         // nose
         canvas.drawCircle(cx,cy, radius/10, whitePaint);
@@ -198,7 +201,7 @@ public class Face extends SurfaceView {
         eyePaint.setColor(getEyeColor());
         eyePaint.setStyle(Paint.Style.FILL);
         canvas.drawCircle(cx-(cx/4),y/3.5f,radius/7f, eyePaint); // left iris
-        canvas.drawCircle(cx+(cx/4), y/3.5f, radius/5f, eyePaint); // right iris
+        canvas.drawCircle(cx+(cx/4), y/3.5f, radius/7f, eyePaint); // right iris
     }
 
     /**
@@ -211,14 +214,14 @@ public class Face extends SurfaceView {
         hairPaint.setColor(getHairColor());
         float radius = x/4; // circle radius
         redPaint.setStyle(Paint.Style.FILL);
-        if (getHairStyle() == 1) {
+        if (getHairStyle() == 0) {
             canvas.drawCircle(cx, radius+10, radius/4, redPaint);//top bun
-        } else if (getHairStyle() == 2) {
+        } else if (getHairStyle() == 1) {
             // left bun
             canvas.drawCircle(cx-(cx/4),radius+cx/6, radius/4, hairPaint );
             //right bun
             canvas.drawCircle(cx+(cx/4),radius+cx/6, radius/4, hairPaint );
-        } else if (getHairStyle() == 3) {
+        } else if (getHairStyle() == 2) {
 
         }
     }
